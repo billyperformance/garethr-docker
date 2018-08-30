@@ -23,10 +23,6 @@
 #   Password for authentication to private Docker registry. Required if ensure
 #   is set to present.
 #
-# [*email*]
-#   Email for registration to private Docker registry. Required if ensure is
-#   set to present.
-#
 # [*show_diff*]
 #   Whether or not to show diff when applying augeas resources.  Setting this
 #   to true may expose sensitive information.
@@ -38,7 +34,6 @@ define docker::registry(
   $ensure      = 'present',
   $username    = undef,
   $password    = undef,
-  $email       = undef,
   $show_diff   = false,
 ) {
   include docker::params
@@ -48,7 +43,6 @@ define docker::registry(
   if $ensure == 'present' {
     validate_string($username)
     validate_string($password)
-    validate_string($email)
 
     $auth_string = base64('encode', "${username}:${password}")
 
@@ -72,8 +66,6 @@ define docker::registry(
       changes   => [
         "set dict/entry[. = 'auths'] 'auths'",
         "set dict/entry[. = 'auths']/dict/entry[. = '${server}'] '${server}'",
-        "set dict/entry[. = 'auths']/dict/entry[. = '${server}']/dict/entry[. = 'email'] email",
-        "set dict/entry[. = 'auths']/dict/entry[. = '${server}']/dict/entry[. = 'email']/string ${email}",
         "set dict/entry[. = 'auths']/dict/entry[. = '${server}']/dict/entry[. = 'auth'] auth",
         "set dict/entry[. = 'auths']/dict/entry[. = '${server}']/dict/entry[. = 'auth']/string ${auth_string}",
       ],

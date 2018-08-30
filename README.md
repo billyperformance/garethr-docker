@@ -555,7 +555,6 @@ By default images will be pushed and pulled from [index.docker.io](https://index
 docker::registry { 'example.docker.io:5000':
   username => 'user',
   password => 'secret',
-  email    => 'user@example.com',
 }
 ```
 
@@ -574,7 +573,6 @@ docker::registry_auth::registries:
   'example.docker.io:5000':
     username: 'user1'
     password: 'secret'
-    email: 'user1@example.io'
 ```
 
 ### Exec
